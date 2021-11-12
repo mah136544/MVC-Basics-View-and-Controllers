@@ -24,6 +24,15 @@ namespace MVC_Basics_View_and_Controllers
     public void ConfigureServices(IServiceCollection services)
     {
         services.AddControllersWithViews();
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(20);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+
+            });
+            services.AddHttpContextAccessor();
+            services.AddMvc();
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -39,12 +48,12 @@ namespace MVC_Basics_View_and_Controllers
             // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
             app.UseHsts();
         }
-        app.UseHttpsRedirection();
+        //app.UseHttpsRedirection();
         app.UseStaticFiles();
 
         app.UseRouting();
-
-        app.UseAuthorization();
+        //app.UseAuthorization();
+        app.UseSession();
 
         app.UseEndpoints(endpoints =>
         {
