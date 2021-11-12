@@ -7,8 +7,6 @@
 
   <ItemGroup>
     <Folder Include="Data\" />
-    <Folder Include="Views\About\" />
-    <Folder Include="Views\Contact\" />
     <Folder Include="wwwroot\images\" />
   </ItemGroup>
 

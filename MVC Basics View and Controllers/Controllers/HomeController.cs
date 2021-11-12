@@ -33,10 +33,16 @@ namespace MVC_Basics_View_and_Controllers.Controllers
             {
                 return View();
             }
-          public IActionResult Contact()
-          {
+         
+           public IActionResult Contact()
+           {
             return View();
-          }
+           }
+          public IActionResult Projects()
+           {
+            return View();
+           }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
             public IActionResult Error()
             {
