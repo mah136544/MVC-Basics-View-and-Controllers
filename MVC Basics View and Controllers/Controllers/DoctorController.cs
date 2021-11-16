@@ -1,4 +1,5 @@
-﻿using Fever.Models;
+﻿using MVC_Basics_View_and_Controllers.Models;
+using Fever.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -6,14 +7,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-//namespace MVC_Basics_View_and_Controllers.Controllers
-namespace Fever.Controllers
+namespace MVC_Basics_View_and_Controllers.Controllers
+
 {
     public class DoctorController : Controller
     {
 
 
-        [Route("FeverCheck")]
+        [Route("/FeverCheck")]
         [HttpGet]
         public ActionResult FeverChecker()
         {
@@ -21,13 +22,23 @@ namespace Fever.Controllers
             ViewData["shypothermia"] = "";
             return View();
         }
-
-
+        public ActionResult RedirecToFeverChecker()
+        {
+            return RedirectToAction("FeverCheck");
+        }
+        
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Route("FeverCheck")]
+        [Route("/FeverCheck")]
         public ActionResult FeverChecker(FeverModel model)
+
         {
+            if (!FeverStatic.IsValid(model.CheckFever))
+            {
+                ViewData["Message"] = "Please enter temperature level";
+                return View();
+            } 
             if (model.Unit == "Fahrenheit")
             {
                 if (model.CheckFever >= 99)
@@ -37,41 +48,43 @@ namespace Fever.Controllers
                 else
                 {
                     ViewData["Message"] = "You have not  fever ";
-                    if (model.Ishypothermia && (model.CheckFever <= 95))
+                    if ((model.CheckFever <= 95))
                     {
                         ViewData["shypothermia"] = "but hypothermia";
                     }
                     else
                     {
-                        ViewData["shypothermia"] = "";
+                     ViewData["shypothermia"] = "";
 
                     }
                 }
             }
             else
-            {
-                if (model.CheckFever >= 38)
-                {
-                    ViewData["Message"] = "You have fever ";
-                }
-                else
-                {
-                    ViewData["Message"] = "You have not  fever ";
-                    if (model.Ishypothermia && (model.CheckFever <= 35))
-                    {
-                        ViewData["shypothermia"] = "but hypothermia";
-                    }
-                    else
-                    {
-                        ViewData["shypothermia"] = "";
-                    }
+{
+    if (model.CheckFever >= 38)
+    {
+        ViewData["Message"] = "You have fever ";
+    }
+    else
+    {
+        ViewData["Message"] = "You have not  fever ";
+        if ((model.CheckFever <= 35))
+        {
+            ViewData["shypothermia"] = "but hypothermia";
+        }
+        else
+        {
+            ViewData["shypothermia"] = "";
+        }
 
-                }
+      }
 
-            }
+    }
             return View();
         }
     }
 }
 
-
+ 
+        
+           
