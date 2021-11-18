@@ -1,90 +1,30 @@
-﻿using MVC_Basics_View_and_Controllers.Models;
-using Fever.Models;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using MVC_Basics_View_and_Controllers.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace MVC_Basics_View_and_Controllers.Controllers
-
 {
     public class DoctorController : Controller
+     
     {
-
-
-        [Route("/FeverCheck")]
         [HttpGet]
-        public ActionResult FeverChecker()
+        public IActionResult CheckFever()
         {
-            ViewData["Fever"] = "";
-            ViewData["shypothermia"] = "";
             return View();
         }
-        public ActionResult RedirecToFeverChecker()
-        {
-            return RedirectToAction("FeverCheck");
-        }
-        
-        
+
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        [Route("/FeverCheck")]
-        public ActionResult FeverChecker(FeverModel model)
-
+        public IActionResult CheckFever(float temperature, string tempType)
         {
-            if (!FeverStatic.IsValid(model.CheckFever))
-            {
-                ViewData["Message"] = "Please enter temperature level";
-                return View();
-            } 
-            if (model.Unit == "Fahrenheit")
-            {
-                if (model.CheckFever >= 99)
-                {
-                    ViewData["Message"] = "You have fever ";
-                }
-                else
-                {
-                    ViewData["Message"] = "You have not  fever ";
-                    if ((model.CheckFever <= 95))
-                    {
-                        ViewData["shypothermia"] = "but hypothermia";
-                    }
-                    else
-                    {
-                     ViewData["shypothermia"] = "";
-
-                    }
-                }
-            }
-            else
-{
-    if (model.CheckFever >= 38)
-    {
-        ViewData["Message"] = "You have fever ";
-    }
-    else
-    {
-        ViewData["Message"] = "You have not  fever ";
-        if ((model.CheckFever <= 35))
-        {
-            ViewData["shypothermia"] = "but hypothermia";
-        }
-        else
-        {
-            ViewData["shypothermia"] = "";
-        }
-
-      }
-
-    }
-            return View();
+            string message = "";
+            message = Doctor.FeverCheck(temperature, tempType);
+            ViewBag.temp = temperature;
+            ViewBag.message = message;
+            ViewBag.type = tempType;
+            return View("FeverResult");
         }
     }
 }
-
- 
-        
-           

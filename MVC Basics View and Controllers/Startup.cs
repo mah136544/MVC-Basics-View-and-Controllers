@@ -49,14 +49,15 @@ namespace MVC_Basics_View_and_Controllers
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapControllerRoute(
-                name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
-            endpoints.MapControllerRoute(
-                name: "customRoute",
-                pattern: "custom",
-                defaults: new { controller = "Test", action = "CustomTest" }
+                name: "CheckFever",
+                pattern: "/CheckFever",
+                defaults: new { controller = "Doctor", action = "CheckFever" }
                 );
 
+            endpoints.MapControllerRoute(
+                name: "default",
+                pattern: "{controller=Home}/{action=Index}/{id?}");
+            
         });
     }
 }
